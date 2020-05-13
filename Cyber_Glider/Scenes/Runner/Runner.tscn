@@ -1,0 +1,53 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://NeonRunner Sprite sheet placeholder.png" type="Texture" id=1]
+[ext_resource path="res://Scenes/Runner/Runner.gd" type="Script" id=2]
+
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 45.0
+
+[sub_resource type="Animation" id=2]
+resource_name = "run"
+length = 0.8
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 1 ]
+}
+
+[node name="Runner" type="Area2D"]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true,
+"_editor_description_": "Collision Layers:
+1: walking on ground
+2: Colliding with obstacle"
+}
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+vframes = 5
+hframes = 3
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 65 )
+shape = SubResource( 1 )
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+anims/run = SubResource( 2 )
+
+[node name="Lane Change Timer" type="Timer" parent="."]

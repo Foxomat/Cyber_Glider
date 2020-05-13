@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://NR Platforms placeholder.png" type="Texture" id=1]
+[ext_resource path="res://Scenes/Platform/Platform.gd" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 100, 100 )
+
+[node name="Platform" type="Area2D"]
+script = ExtResource( 2 )
+
+[node name="Appearance" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+hframes = 5
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="tween" type="Tween" parent="."]
+
+[node name="Visibility" type="VisibilityNotifier2D" parent="."]
+rect = Rect2( -110, -110, 220, 220 )
+[connection signal="input_event" from="." to="." method="_platform_input_event"]
+[connection signal="screen_exited" from="Visibility" to="." method="_screen_exited"]
