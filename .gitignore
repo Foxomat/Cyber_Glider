@@ -1,4 +1,8 @@
+
+#Godot Files
 .DS_Store
 *~
 .import/
 logs/
+export.cfg
+export_presets.cfg

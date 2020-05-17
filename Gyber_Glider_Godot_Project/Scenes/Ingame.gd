@@ -5,6 +5,11 @@ export (PackedScene) var Platform
 var fallspeed = 200
 var falloffset = 0
 
+#offsets for the grid; y_offset is variable (platforms fall), thats why we need
+#to remember the initial y offset
+var x_offset = 140
+var y_offset = 20
+
 #-------------------------------------------------------------------------------
 func _ready():
 	randomize()
@@ -20,3 +25,6 @@ func spawn_platforms():
 	var platform = Platform.instance()
 	platform.position = get_node(spawn).position
 	$Platforms.add_child(platform)
+
+func get_y_offset():
+	return y_offset + falloffset

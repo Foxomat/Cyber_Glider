@@ -8,11 +8,11 @@ onready var yover = screensize.y - 1920
 var raw_mousepos
 var mousepos
 
-var tween_duration = 0.05
+var tween_duration = 0.02
 
 #offsets for the grid; y_offset is variable (platforms fall), thats why we need
 #to remember the initial y offset
-var x_offset = 140
+onready var x_offset = $"/root/Ingame".x_offset
 var y_offset = 20
 
 #if true, this platform is being dragged around at the moment
@@ -36,15 +36,16 @@ func _process(delta):
 		mousepos = Vector2(raw_mousepos.x - xover, raw_mousepos.y - yover)
 		var snap = nearest_snap(mousepos)
 		
-		position = mousepos
+		print(get_overlapping_areas().size())
+		position = Vector2(mousepos.x, mousepos.y)
 
 
 #transforming coordinates to the nearest position to snap to (snap to grid)
 func nearest_snap(pos):
-	var y_tmp_offset = y_offset + $"/root/Ingame".falloffset
+	var y_offset = $"/root/Ingame".get_y_offset()
 	var snap = Vector2()
 	snap.x = round((pos.x - x_offset)/200) * 200  + x_offset
-	snap.y = round((pos.y - y_tmp_offset)/200) * 200  + y_tmp_offset
+	snap.y = round((pos.y - y_offset)/200) * 200  + y_offset
 	return snap
 
 
@@ -53,6 +54,7 @@ func _platform_input_event(viewport, event, shape_idx):
 	if event is InputEventScreenTouch:
 		if event.is_pressed():
 			dragging = true
+
 
 
 #exit dragging mode if finger is released and snap to the grid
