@@ -4,9 +4,10 @@
 [ext_resource path="res://Scenes/Platform/Platform.gd" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 100, 100 )
+extents = Vector2( 96, 96 )
 
-[node name="Platform" type="Area2D"]
+[node name="Platform" type="KinematicBody2D"]
+input_pickable = true
 script = ExtResource( 2 )
 
 [node name="Appearance" type="Sprite" parent="."]

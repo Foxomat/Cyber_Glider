@@ -1,4 +1,4 @@
-extends Area2D
+extends KinematicBody2D
 
 #this bit is necessary for correcting the mouse pos for different resolutions
 #because we are using a control node as root node
@@ -36,8 +36,15 @@ func _process(delta):
 		mousepos = Vector2(raw_mousepos.x - xover, raw_mousepos.y - yover)
 		var snap = nearest_snap(mousepos)
 		
-		print(get_overlapping_areas().size())
-		position = Vector2(mousepos.x, mousepos.y)
+		#print(get_overlapping_areas().size())
+		#position = Vector2(mousepos.x, mousepos.y)
+		move_and_slide(20*(mousepos - position))
+
+
+#func move():
+#	var overlapping = get_overlapping_areas()
+#	for area in overlapping:
+		
 
 
 #transforming coordinates to the nearest position to snap to (snap to grid)

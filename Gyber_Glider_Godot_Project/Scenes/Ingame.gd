@@ -23,7 +23,7 @@ func _process(delta):
 func spawn_platforms():
 	var spawn = "SpawnPos" + String(randi()%5)
 	var platform = Platform.instance()
-	platform.position = get_node(spawn).position
+	platform.position = $SpawnPositions.get_node(spawn).position
 	$Platforms.add_child(platform)
 
 func get_y_offset():

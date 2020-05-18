@@ -27,17 +27,21 @@ __meta__ = {
 [node name="Runner" parent="." instance=ExtResource( 1 )]
 position = Vector2( 540, 1697.66 )
 
-[node name="SpawnPos0" type="Position2D" parent="."]
+[node name="SpawnPositions" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="SpawnPos0" type="Position2D" parent="SpawnPositions"]
 position = Vector2( 140, -780 )
 
-[node name="SpawnPos1" type="Position2D" parent="."]
+[node name="SpawnPos1" type="Position2D" parent="SpawnPositions"]
 position = Vector2( 340, -780 )
 
-[node name="SpawnPos2" type="Position2D" parent="."]
+[node name="SpawnPos2" type="Position2D" parent="SpawnPositions"]
 position = Vector2( 540, -780 )
 
-[node name="SpawnPos3" type="Position2D" parent="."]
+[node name="SpawnPos3" type="Position2D" parent="SpawnPositions"]
 position = Vector2( 740, -780 )
 
-[node name="SpawnPos4" type="Position2D" parent="."]
+[node name="SpawnPos4" type="Position2D" parent="SpawnPositions"]
 position = Vector2( 940, -780 )
