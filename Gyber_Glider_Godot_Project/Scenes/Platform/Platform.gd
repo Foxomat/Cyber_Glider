@@ -26,6 +26,8 @@ func _process(delta):
 	position.y += $"/root/Ingame".fallspeed*delta
 	
 	if dragging:
+		#signal for drawing the snap indicator
+		emit_signal("being_dragged", self)
 			#uncomment 3 lines bellow for testing with resizing while the game 
 			#is running
 		#screensize = get_viewport().get_size_override()
@@ -36,8 +38,8 @@ func _process(delta):
 		var raw_mousepos = get_global_mouse_position()
 		var mousepos = Vector2(raw_mousepos.x - xover, raw_mousepos.y - yover)
 		var snap = nearest_snap(mousepos)
-		emit_signal("being_dragged", self)
-				#move the platform
+		
+		#move the platform
 		move_and_slide(platform_move_multi*(mousepos - position))
 
 
@@ -54,22 +56,30 @@ func nearest_snap(pos):
 func _platform_input_event(viewport, event, shape_idx):
 	if event is InputEventScreenTouch:
 		if event.is_pressed():
-			connect("being_dragged", get_node("/root/Ingame"), "platform_dragged")
-			get_node("/root/Ingame/SnapIndicator").visible = true
-			dragging = true
+			if event.position.y < 1820: #don't react to things close to bottom
+				dragging = true #enable dragging mode
+				connect("being_dragged", get_node("/root/Ingame"),
+						"platform_dragged") #connect for snap indicator
+				get_node("/root/Ingame/SnapIndicator").visible = true
 
 
-#exit dragging mode if finger is released and snap to the grid
+
+#exit dragging mode if finger is released and snap to the grid.
+#because this is called on every platform when the finger is released,
+#every platform snaps to the grid at that moment (and grid offsets are the same)
 func _input(event):
 	if event is InputEventScreenTouch:
 		if not event.is_pressed():
-			dragging = false
-			if is_connected("being_dragged", get_node("/root/Ingame"), "platform_dragged"):
-				disconnect("being_dragged", get_node("/root/Ingame"), "platform_dragged")
+			dragging = false #disable dragging mode
+			if is_connected("being_dragged", get_node("/root/Ingame"),
+							"platform_dragged"): #test if connected
+				disconnect("being_dragged", get_node("/root/Ingame"),
+							"platform_dragged") #disconnect SnapIndicator
 			get_node("/root/Ingame/SnapIndicator").visible = false
+			
 			$tween.interpolate_property(self, "position", position, 
 					nearest_snap(position), tween_duration, Tween.TRANS_LINEAR)
-			$tween.start()
+			$tween.start() #animation for snapping to grid
 
 
 func _screen_exited():
